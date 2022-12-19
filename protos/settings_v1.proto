@@ -1,0 +1,112 @@
+// Copyright 2015 gRPC authors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "pip-services.infrastructure.settings.version1";
+option java_outer_classname = "SettingsProtoV1";
+option objc_class_prefix = "SETTINGS_CMD_V1";
+option go_package = "./protos";
+
+package settings_v1;
+
+message ErrorDescription {
+  string type = 1;
+  string category = 2;
+  string code = 3;
+  string correlation_id = 4;
+  string status = 5;
+  string message = 6;
+  string cause = 7;
+  string stack_trace = 8;
+  map<string, string> details = 9;
+}
+
+message PagingParams {
+    int64 skip = 1;
+    int32 take = 2;
+    bool total = 3;
+}
+
+message SettingsSection {
+    string id = 1;
+    map<string, string> parameters = 2;
+    string update_time = 3;
+}
+
+message SettingsSectionPage {
+    int64 total = 1;
+    repeated SettingsSection data = 2;
+}
+
+message SettingsIdPage {
+    int64 total = 1;
+    repeated string data = 2;
+}
+
+// The settings service definition.
+service Settings {
+  rpc get_section_ids (SettingsPageRequest) returns (SettingsIdPageReply) {}
+  rpc get_sections (SettingsPageRequest) returns (SettingsSectionPageReply) {}
+  rpc get_section_by_id (SettingsIdRequest) returns (SettingsParamsReply) {}
+  rpc set_section (SettingsParamsRequest) returns (SettingsParamsReply) {}
+  rpc modify_section (SettingsModifyParamsRequest) returns (SettingsParamsReply) {}
+}
+
+// The request message containing the settings page request.
+message SettingsPageRequest {
+  string correlation_id = 1;
+  map<string, string> filter = 2;
+  PagingParams paging = 3;
+}
+
+// The response message containing the settings id page response
+message SettingsIdPageReply {
+  ErrorDescription error = 1;
+  SettingsIdPage page = 2;
+}
+
+// The response message containing the settings section page response
+message SettingsSectionPageReply {
+  ErrorDescription error = 1;
+  SettingsSectionPage page = 2;
+}
+
+// The request message containing the settings id request.
+message SettingsIdRequest {
+  string correlation_id = 1;
+  string id = 2;
+}
+
+// The request message containing the settings params request
+message SettingsParamsRequest {
+  string correlation_id = 1;
+  string id = 2;
+  map<string, string> parameters = 3;
+}
+
+// The request message containing the settings params request
+message SettingsModifyParamsRequest {
+  string correlation_id = 1;
+  string id = 2;
+  map<string, string> update_parameters = 3;
+  map<string, string> increment_parameters = 4;
+}
+
+// The response message containing the settings params response
+message SettingsParamsReply {
+  ErrorDescription error = 1;
+  map<string, string> parameters = 2;
+}
