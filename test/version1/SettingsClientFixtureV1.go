@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/pip-services-infrastructure2/client-settings-go/version1"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/config"
-	"github.com/service-infrastructure2/client-settings-go/version1"
 	"github.com/stretchr/testify/assert"
 )
 

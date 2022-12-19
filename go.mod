@@ -1,4 +1,4 @@
-module github.com/service-infrastructure2/client-settings-go
+module github.com/pip-services-infrastructure2/client-settings-go
 
 go 1.18
 

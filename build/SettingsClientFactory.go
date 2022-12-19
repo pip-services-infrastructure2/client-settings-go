@@ -1,9 +1,9 @@
 package build
 
 import (
+	clients1 "github.com/pip-services-infrastructure2/client-settings-go/version1"
 	cref "github.com/pip-services3-gox/pip-services3-commons-gox/refer"
 	cbuild "github.com/pip-services3-gox/pip-services3-components-gox/build"
-	clients1 "github.com/service-infrastructure2/client-settings-go/version1"
 )
 
 type SettingsClientFactory struct {
