@@ -12,6 +12,13 @@ services:
     environment:
       - GRPC_HOST=service
       - GRPC_PORT=8090
+      - HTTP_HOST=service
+      - HTTP_PORT=8080
 
   service:
-    image: pipservices/service-settings-node:latest
+    image: pipservices/service-accounts-node:latest
+    environment:
+      - HTTP_ENABLED=true
+      - GRPC_ENABLED=true
+      - GRPC_PORT=8090
+      - HTTP_PORT=8080
