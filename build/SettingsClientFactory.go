@@ -15,10 +15,10 @@ func NewSettingsClientFactory() *SettingsClientFactory {
 		Factory: cbuild.NewFactory(),
 	}
 
-	cmdHttpClientDescriptor := cref.NewDescriptor("service-accounts", "client", "commandable-http", "*", "1.0")
-	cmdGrpcClientDescriptor := cref.NewDescriptor("service-accounts", "client", "commandable-gtpc", "*", "1.0")
-	grpcClientDescriptor := cref.NewDescriptor("service-accounts", "client", "grpc", "*", "1.0")
-	mockClientDescriptor := cref.NewDescriptor("service-accounts", "client", "mock", "*", "1.0")
+	cmdHttpClientDescriptor := cref.NewDescriptor("service-settings", "client", "commandable-http", "*", "1.0")
+	cmdGrpcClientDescriptor := cref.NewDescriptor("service-settings", "client", "commandable-gtpc", "*", "1.0")
+	grpcClientDescriptor := cref.NewDescriptor("service-settings", "client", "grpc", "*", "1.0")
+	mockClientDescriptor := cref.NewDescriptor("service-settings", "client", "mock", "*", "1.0")
 
 	c.RegisterType(cmdHttpClientDescriptor, clients1.NewSettingsCommandableHttpClientV1)
 	c.RegisterType(cmdGrpcClientDescriptor, clients1.NewSettingsCommandableGrpcClientV1)
