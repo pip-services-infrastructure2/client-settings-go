@@ -75,11 +75,8 @@ func (c *SettingsCommandableHttpClientV1) GetSectionById(ctx context.Context, co
 		return nil, err
 	}
 
-	parameters, convErr := clients.HandleHttpResponse[*cconf.ConfigParams](res, correlationId)
-
-	if parameters != nil {
-		parameters = cconf.NewConfigParamsFromValue(parameters)
-	}
+	mapParams, convErr := clients.HandleHttpResponse[map[string]any](res, correlationId)
+	parameters := cconf.NewConfigParamsFromValue(mapParams)
 
 	if convErr != nil {
 		return parameters, convErr
@@ -98,11 +95,8 @@ func (c *SettingsCommandableHttpClientV1) SetSection(ctx context.Context, correl
 		return nil, err
 	}
 
-	parameters, convErr := clients.HandleHttpResponse[*cconf.ConfigParams](res, correlationId)
-
-	if parameters != nil {
-		parameters = cconf.NewConfigParamsFromValue(parameters)
-	}
+	mapParams, convErr := clients.HandleHttpResponse[map[string]any](res, correlationId)
+	parameters := cconf.NewConfigParamsFromValue(mapParams)
 
 	if convErr != nil {
 		return parameters, convErr
@@ -122,11 +116,8 @@ func (c *SettingsCommandableHttpClientV1) ModifySection(ctx context.Context, cor
 		return nil, err
 	}
 
-	parameters, convErr := clients.HandleHttpResponse[*cconf.ConfigParams](res, correlationId)
-
-	if parameters != nil {
-		parameters = cconf.NewConfigParamsFromValue(parameters)
-	}
+	mapParams, convErr := clients.HandleHttpResponse[map[string]any](res, correlationId)
+	parameters := cconf.NewConfigParamsFromValue(mapParams)
 
 	if convErr != nil {
 		return parameters, convErr
