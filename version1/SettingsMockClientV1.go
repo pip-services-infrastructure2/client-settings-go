@@ -45,7 +45,7 @@ func (c *SettingsMockClientV1) GetSections(ctx context.Context, correlationId st
 func (c *SettingsMockClientV1) GetSectionById(ctx context.Context, correlationId string, id string) (result *config.ConfigParams, err error) {
 	for _, v := range c.settings {
 		if v.Id == id {
-			result = v.Parameters
+			result = config.NewConfigParams(v.Parameters)
 			break
 		}
 	}
@@ -61,7 +61,7 @@ func (c *SettingsMockClientV1) SetSection(ctx context.Context, correlationId str
 	item := NewSettingsSectionV1(id, *params)
 
 	c.settings = append(c.settings, item)
-	return item.Parameters, nil
+	return config.NewConfigParams(item.Parameters), nil
 }
 
 func (c *SettingsMockClientV1) ModifySection(ctx context.Context, correlationId string, id string, updateParams *config.ConfigParams, incrementParams *config.ConfigParams) (result *config.ConfigParams, err error) {
@@ -82,11 +82,13 @@ func (c *SettingsMockClientV1) ModifySection(ctx context.Context, correlationId 
 		setting = NewSettingsSectionV1(id, *config.NewEmptyConfigParams())
 	}
 
+	params := config.NewConfigParams(setting.Parameters)
+
 	// Update parameters
 	if updateParams != nil {
 		for _, key := range updateParams.Keys() {
 			if val, ok := updateParams.Get(key); ok {
-				setting.Parameters.SetAsObject(key, val)
+				params.SetAsObject(key, val)
 			}
 		}
 	}
@@ -96,9 +98,9 @@ func (c *SettingsMockClientV1) ModifySection(ctx context.Context, correlationId 
 		for _, key := range incrementParams.Keys() {
 			if _, ok := incrementParams.Get(key); ok {
 				increment := incrementParams.GetAsLongWithDefault(key, 0)
-				value := setting.Parameters.GetAsLongWithDefault(key, 0)
+				value := params.GetAsLongWithDefault(key, 0)
 				value = value + increment
-				setting.Parameters.SetAsObject(key, value)
+				params.SetAsObject(key, value)
 			}
 		}
 	}
@@ -106,9 +108,11 @@ func (c *SettingsMockClientV1) ModifySection(ctx context.Context, correlationId 
 	// Update time
 	setting.UpdateTime = time.Now()
 
+	setting.Parameters = params.Value()
+
 	if index < 0 {
 		c.settings = append(c.settings, setting)
 	}
 
-	return setting.Parameters, nil
+	return params, nil
 }

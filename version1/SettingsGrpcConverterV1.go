@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 
 	"github.com/pip-services-infrastructure2/client-settings-go/protos"
-	"github.com/pip-services3-gox/pip-services3-commons-gox/config"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/convert"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/data"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/errors"
@@ -100,7 +99,7 @@ func fromSettingsSection(section *SettingsSectionV1) *protos.SettingsSection {
 
 	obj := &protos.SettingsSection{
 		Id:         section.Id,
-		Parameters: section.Parameters.Value(),
+		Parameters: section.Parameters,
 		UpdateTime: convert.StringConverter.ToString(section.UpdateTime),
 	}
 
@@ -114,7 +113,7 @@ func toSettingsSection(obj *protos.SettingsSection) *SettingsSectionV1 {
 
 	settings := &SettingsSectionV1{
 		Id:         obj.Id,
-		Parameters: config.NewConfigParamsFromMaps(obj.Parameters),
+		Parameters: obj.Parameters,
 		UpdateTime: convert.DateTimeConverter.ToDateTime(obj.UpdateTime),
 	}
 

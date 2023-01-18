@@ -57,12 +57,6 @@ func (c *SettingsCommandableGrpcClientV1) GetSections(ctx context.Context, corre
 		return page, convErr
 	}
 
-	if len(page.Data) > 0 {
-		for _, item := range page.Data {
-			item.Parameters = cconf.NewConfigParamsFromValue(item.Parameters)
-		}
-	}
-
 	return page, nil
 }
 
@@ -88,7 +82,7 @@ func (c *SettingsCommandableGrpcClientV1) GetSectionById(ctx context.Context, co
 func (c *SettingsCommandableGrpcClientV1) SetSection(ctx context.Context, correlationId string, id string, params *cconf.ConfigParams) (result *cconf.ConfigParams, err error) {
 	res, err := c.CallCommand(ctx, "set_section", correlationId, cdata.NewAnyValueMapFromTuples(
 		"id", id,
-		"parameters", params,
+		"parameters", params.Value(),
 	))
 
 	if err != nil {
@@ -106,10 +100,10 @@ func (c *SettingsCommandableGrpcClientV1) SetSection(ctx context.Context, correl
 }
 
 func (c *SettingsCommandableGrpcClientV1) ModifySection(ctx context.Context, correlationId string, id string, updateParams *cconf.ConfigParams, incrementParams *cconf.ConfigParams) (result *cconf.ConfigParams, err error) {
-	res, err := c.CallCommand(ctx, "set_section", correlationId, cdata.NewAnyValueMapFromTuples(
+	res, err := c.CallCommand(ctx, "modify_section", correlationId, cdata.NewAnyValueMapFromTuples(
 		"id", id,
-		"update_parameters", updateParams,
-		"increment_parameters", incrementParams,
+		"update_parameters", updateParams.Value(),
+		"increment_parameters", incrementParams.Value(),
 	))
 
 	if err != nil {
