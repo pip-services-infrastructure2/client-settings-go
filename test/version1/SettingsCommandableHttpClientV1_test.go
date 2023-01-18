@@ -10,7 +10,7 @@ import (
 )
 
 type settingsCommandableHttpClientV1Test struct {
-	client  *version1.SettingsCommandableGrpcClientV1
+	client  *version1.SettingsCommandableHttpClientV1
 	fixture *SettingsClientFixtureV1
 }
 
@@ -19,22 +19,22 @@ func newSettingsCommandableHttpClientV1Test() *settingsCommandableHttpClientV1Te
 }
 
 func (c *settingsCommandableHttpClientV1Test) setup(t *testing.T) *SettingsClientFixtureV1 {
-	var GRPC_HOST = os.Getenv("GRPC_HOST")
-	if GRPC_HOST == "" {
-		GRPC_HOST = "localhost"
+	var HTTP_HOST = os.Getenv("HTTP_HOST")
+	if HTTP_HOST == "" {
+		HTTP_HOST = "localhost"
 	}
-	var GRPC_PORT = os.Getenv("GRPC_PORT")
-	if GRPC_PORT == "" {
-		GRPC_PORT = "8090"
+	var HTTP_PORT = os.Getenv("HTTP_PORT")
+	if HTTP_PORT == "" {
+		HTTP_PORT = "8090"
 	}
 
 	var httpConfig = config.NewConfigParamsFromTuples(
 		"connection.protocol", "http",
-		"connection.host", GRPC_HOST,
-		"connection.port", GRPC_PORT,
+		"connection.host", HTTP_HOST,
+		"connection.port", HTTP_PORT,
 	)
 
-	c.client = version1.NewSettingsCommandableGrpcClientV1()
+	c.client = version1.NewSettingsCommandableHttpClientV1()
 	c.client.Configure(context.Background(), httpConfig)
 	c.client.Open(context.Background(), "")
 
