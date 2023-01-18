@@ -25,7 +25,7 @@ func (c *settingsCommandableHttpClientV1Test) setup(t *testing.T) *SettingsClien
 	}
 	var HTTP_PORT = os.Getenv("HTTP_PORT")
 	if HTTP_PORT == "" {
-		HTTP_PORT = "8090"
+		HTTP_PORT = "8080"
 	}
 
 	var httpConfig = config.NewConfigParamsFromTuples(
